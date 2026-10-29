@@ -111,11 +111,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
       >
         <div className="relative flex items-center justify-center">
           {splashLogo ? (
-            <div className="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center p-2">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center p-2 border-none outline-none ring-0">
               <img
                 src={splashLogo}
-                alt={BRANDING_CONFIG.appName}
-                className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(0,212,146,0.18)]"
+                alt=""
+                aria-hidden="true"
+                loading="eager"
+                decoding="sync"
+                className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(0,212,146,0.18)] border-0 outline-none ring-0 select-none pointer-events-none"
+                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
               />
             </div>
           ) : (

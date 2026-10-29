@@ -22,6 +22,7 @@ import { BackupModal } from './components/BackupModal';
 import { CopyPreviousMonthBanner } from './components/CopyPreviousMonthBanner';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { SplashScreen } from './components/SplashScreen';
+import { checkAndTriggerScheduledNotifications } from './utils/notifications';
 
 export default function App() {
   // Current active date selection
@@ -46,6 +47,15 @@ export default function App() {
       localStorage.setItem('sempila_animations_enabled', String(animationsEnabled));
     }
   }, [animationsEnabled]);
+
+  // Periodic check for 10:00 and 20:00 daily reminder notifications
+  useEffect(() => {
+    checkAndTriggerScheduledNotifications();
+    const timer = setInterval(() => {
+      checkAndTriggerScheduledNotifications();
+    }, 30000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Modals state
   const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);

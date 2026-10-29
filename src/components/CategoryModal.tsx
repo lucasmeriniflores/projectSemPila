@@ -168,7 +168,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
                 }}
                 required
                 autoFocus
-                className="w-full px-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-base text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition"
               />
             </div>
 
@@ -191,7 +191,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
                     setBudgetedStr(e.target.value);
                     setError('');
                   }}
-                  className="w-full pl-9 pr-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-display"
+                  className="w-full pl-9 pr-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-base text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-display"
                 />
               </div>
             </div>

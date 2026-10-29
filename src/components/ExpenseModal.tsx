@@ -158,7 +158,7 @@ export const ExpenseModal: React.FC<ExpenseModalProps> = ({
               placeholder="Ex: Almoço, Gasolina, Uber..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-950/80 border border-zinc-800 text-base text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition"
             />
           </div>
 
@@ -172,7 +172,7 @@ export const ExpenseModal: React.FC<ExpenseModalProps> = ({
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg bg-zinc-950/80 border border-zinc-800 text-xs text-zinc-300 focus:outline-none focus:border-zinc-500 transition font-display"
+              className="w-full px-3 py-1.5 rounded-lg bg-zinc-950/80 border border-zinc-800 text-base text-zinc-300 focus:outline-none focus:border-zinc-500 transition font-display"
             />
           </div>
 
