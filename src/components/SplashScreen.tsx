@@ -10,9 +10,36 @@ type SplashStage = 'enter' | 'appear' | 'zoom' | 'shrink' | 'reveal' | 'finished
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   const [stage, setStage] = useState<SplashStage>('enter');
   const [visible, setVisible] = useState(true);
+  const [isImageReady, setIsImageReady] = useState(false);
 
   // Logo da tela de carregamento (definida em branding.ts)
   const splashLogo = BRANDING_CONFIG.splashLogoUrl || BRANDING_CONFIG.logoUrl;
+
+  // Pré-carregamento assíncrono para garantir que nenhum frame com borda/placeholder de imagem apareça
+  useEffect(() => {
+    if (!splashLogo) {
+      setIsImageReady(true);
+      return;
+    }
+
+    const img = new Image();
+    img.src = splashLogo;
+
+    if (img.complete && img.naturalWidth > 0) {
+      setIsImageReady(true);
+    } else {
+      img.onload = () => {
+        if ('decode' in img) {
+          img.decode().then(() => setIsImageReady(true)).catch(() => setIsImageReady(true));
+        } else {
+          setIsImageReady(true);
+        }
+      };
+      img.onerror = () => {
+        setIsImageReady(true);
+      };
+    }
+  }, [splashLogo]);
 
   useEffect(() => {
     // Se o usuário desativou animações nas configurações, encerra rápido
@@ -96,8 +123,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
       className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#09090b] transition-opacity duration-500 ease-out select-none overflow-hidden p-6 ${
         isFadingBackdrop ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
+      style={{ backgroundColor: '#09090b' }}
     >
-      {/* Top spacer for optical centering */}
+      {/* Espaçador superior para equilíbrio óptico */}
       <div className="w-full h-8" />
 
       {/* Brilho ambiental bem suave e discreto */}
@@ -111,21 +139,26 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
       >
         <div className="relative flex items-center justify-center">
           {splashLogo ? (
-            <div className="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center p-2 border-none outline-none ring-0">
-              <img
-                src={splashLogo}
-                alt=""
-                aria-hidden="true"
-                loading="eager"
-                decoding="sync"
-                className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(0,212,146,0.18)] border-0 outline-none ring-0 select-none pointer-events-none"
-                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-              />
-            </div>
+            /* Usamos background-image em div para eliminar 100% qualquer borda ou placeholder branco que navegadores desenham em tags img não decodificadas */
+            <div
+              role="img"
+              aria-label={BRANDING_CONFIG.appName}
+              className={`w-24 h-24 sm:w-28 sm:h-28 bg-contain bg-center bg-no-repeat border-0 outline-none ring-0 select-none pointer-events-none transition-opacity duration-200 ${
+                isImageReady ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                backgroundImage: `url("${splashLogo}")`,
+                backgroundColor: 'transparent',
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+              }}
+            />
           ) : (
             <div
               id="splash-logo-placeholder"
-              className="w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-700/80 shadow-[0_0_20px_rgba(16,185,129,0.12)] flex items-center justify-center text-zinc-100 font-bold text-2xl tracking-tight font-display ring-1 ring-emerald-500/15"
+              className="w-20 h-20 bg-transparent flex items-center justify-center text-emerald-400 font-bold text-3xl tracking-tight font-display border-0 outline-none select-none"
+              style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
             >
               {BRANDING_CONFIG.initials}
             </div>

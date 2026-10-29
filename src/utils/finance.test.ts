@@ -172,19 +172,17 @@ test('calculateMonthSummary handles completely empty month with 0 income and 0 c
   assert.equal(summary.categoriesSummary.length, 0);
 });
 
-test('notification presets provide funny messages for morning and evening', async () => {
-  const { getRandomMessage, NOTIFICATION_PRESETS } = await import('./notifications');
+test('notification system provides rich funny push messages for morning and evening', async () => {
+  const { getRandomMessage, MORNING_MESSAGES, EVENING_MESSAGES } = await import('./notifications');
 
-  assert.ok(NOTIFICATION_PRESETS.zoeira.morningMessages.length >= 3);
-  assert.ok(NOTIFICATION_PRESETS.zoeira.eveningMessages.length >= 3);
-  assert.ok(NOTIFICATION_PRESETS.paoduro.morningMessages.length >= 2);
-  assert.ok(NOTIFICATION_PRESETS.coach.eveningMessages.length >= 2);
+  assert.ok(MORNING_MESSAGES.length >= 5);
+  assert.ok(EVENING_MESSAGES.length >= 5);
 
-  const morningMsg = getRandomMessage('zoeira', 'morning');
+  const morningMsg = getRandomMessage('morning');
   assert.equal(typeof morningMsg, 'string');
   assert.ok(morningMsg.length > 10);
 
-  const eveningMsg = getRandomMessage('zoeira', 'evening');
+  const eveningMsg = getRandomMessage('evening');
   assert.equal(typeof eveningMsg, 'string');
   assert.ok(eveningMsg.length > 10);
 });
