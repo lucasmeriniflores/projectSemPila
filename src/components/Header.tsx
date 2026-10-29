@@ -23,15 +23,27 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY.current;
 
-      // Always show near top
-      if (currentScrollY < 20) {
+      // Always show when near top or if bounce/negative
+      if (currentScrollY <= 40) {
         setIsVisible(true);
-      } else if (delta > 6 && currentScrollY > 70) {
-        // Scrolling down past threshold -> hide header smoothly
+        lastScrollY.current = Math.max(0, currentScrollY);
+        return;
+      }
+
+      // Check if page actually has enough content to scroll
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      if (docHeight <= winHeight + 120) {
+        setIsVisible(true);
+        return;
+      }
+
+      const delta = currentScrollY - lastScrollY.current;
+      if (delta > 8 && currentScrollY > 90) {
+        // Scrolling down past threshold on a long page -> hide header smoothly
         setIsVisible(false);
-      } else if (delta < -6) {
+      } else if (delta < -5) {
         // Scrolling up -> reveal header smoothly
         setIsVisible(true);
       }
@@ -39,8 +51,18 @@ export const Header: React.FC<HeaderProps> = ({
       lastScrollY.current = currentScrollY;
     };
 
+    const handleTouchEnd = () => {
+      if (window.scrollY <= 40) {
+        setIsVisible(true);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
   }, []);
 
   const handlePrev = () => {
@@ -74,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-30 transition-transform duration-300 ease-in-out bg-[#09090b]/75 backdrop-blur-xl supports-[backdrop-filter]:bg-[#09090b]/65 shadow-md shadow-black/30 px-4 py-3 ${
+      className={`sticky top-0 z-30 transition-transform duration-300 ease-in-out bg-[#09090b]/85 backdrop-blur-xl supports-[backdrop-filter]:bg-[#09090b]/75 shadow-md shadow-black/30 px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >

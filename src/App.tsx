@@ -258,7 +258,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans selection:bg-zinc-800 selection:text-white">
+    <div className="min-h-screen min-h-[100dvh] bg-[#09090b] text-zinc-100 flex flex-col font-sans selection:bg-zinc-800 selection:text-white pb-[max(1rem,env(safe-area-inset-bottom))]">
       {/* Opening Splash Screen */}
       <SplashScreen />
 
