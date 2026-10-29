@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Unbounded', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Global complete scrollbar removal across the whole website */
+  html, body, *, *::before, *::after {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  html, body {
+    font-family: var(--font-sans);
+    background-color: #09090b;
+    color: #f4f4f5;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overscroll-behavior-y: none;
+  }
+
+  h1, h2, h3, .font-display, .font-numeric {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  /* Remove default OS border, outline and focus rings from select elements on Windows/PC */
+  select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    color-scheme: dark;
+  }
+  select::-ms-expand {
+    display: none !important;
+  }
+  select:focus,
+  select:focus-visible,
+  select:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Keyframe animations for buttery-smooth native modal sheets */
+  @keyframes modalBackdropIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modalBackdropOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sheetSlideUpMobile {
+    from {
+      transform: translateY(100%);
+      opacity: 0.8;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes sheetSlideDownMobile {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes sheetPopDesktop {
+    from {
+      transform: scale(0.96) translateY(12px);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes sheetPopOutDesktop {
+    from {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0.95) translateY(12px);
+      opacity: 0;
+    }
+  }
+
+  /* Month transition slide animations */
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(40px);
+      opacity: 0.2;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-40px);
+      opacity: 0.2;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Smooth accordion reveal */
+  @keyframes accordionDown {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-modal-backdrop {
+    animation: modalBackdropIn 220ms ease-out forwards;
+  }
+
+  .animate-modal-backdrop-out {
+    animation: modalBackdropOut 200ms ease-in forwards;
+  }
+
+  .animate-modal-sheet {
+    animation: sheetSlideUpMobile 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-modal-sheet-out {
+    animation: sheetSlideDownMobile 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  .animate-slide-from-right {
+    animation: slideInFromRight 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-from-left {
+    animation: slideInFromLeft 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-accordion {
+    animation: accordionDown 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Smooth expandable grid accordion (both open and close) */
+  .accordion-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 220ms ease;
+    opacity: 0;
+  }
+
+  .accordion-collapse.expanded {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .accordion-inner {
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .animate-modal-sheet {
+      animation: sheetPopDesktop 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .animate-modal-sheet-out {
+      animation: sheetPopOutDesktop 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+  }
+
+  /* When user disables animations in settings for maximum performance */
+  body.disable-animations,
+  body.disable-animations *,
+  body.disable-animations *::before,
+  body.disable-animations *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

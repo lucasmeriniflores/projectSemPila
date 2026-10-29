@@ -1,0 +1,6 @@
+{
+  "name": "SemPila",
+  "description": "SemPila - Controle financeiro mensal pessoal, minimalista e 100% offline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
